@@ -1,11 +1,17 @@
-const FormInput = ({ label, name, type, defaultValue }) => {
+const FormInput = ({
+	label,
+	name,
+	type,
+	defaultValue,
+	size,
+}) => {
 	return (
 		<fieldset className="fieldset">
-			<legend className="fieldset-legend">{label}</legend>
+			<legend className="label capitalize">{label}</legend>
 			<input
 				name={name}
 				type={type}
-				className="input"
+				className={`input ${size}`}
 				defaultValue={defaultValue}
 			/>
 		</fieldset>

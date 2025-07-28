@@ -6,11 +6,17 @@ import {
 } from "../components";
 import { customAPIFetch } from "../utils";
 const url = "/products";
-export const loader = async () => {
-	const response = await customAPIFetch(url);
+export const loader = async ({ request }) => {
+	const params = Object.fromEntries([
+		...new URL(request.url).searchParams.entries(),
+	]);
+	const response = await customAPIFetch(url, {
+		params,
+	});
+
 	const products = response.data.data;
 	const meta = response.data.meta;
-	return { products, meta };
+	return { products, meta, params };
 };
 const Products = () => {
 	return (

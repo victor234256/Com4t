@@ -1,7 +1,9 @@
 ## Com4t – Modern E-commerce Web App
+
 Com4t is a fully functional e-commerce web application built with React and Vite, providing a seamless shopping experience. Users can register, sign in, or continue as a guest to browse and purchase products.
 
 ## ✅ Key Features
+
 User Authentication – Register, login, or shop as a guest
 
 Product Browsing – View featured and all products dynamically
@@ -21,6 +23,7 @@ Testing – Using Thunder Client in VS Code for API testing
 API Debugging – Via Postman for request validation
 
 ## 🛠 Tech Stack
+
 React + Vite
 
 Redux Toolkit

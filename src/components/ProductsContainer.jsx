@@ -3,7 +3,6 @@ import ProductsGrid from "./ProductsGrid";
 import ProductsList from "./ProductsList";
 import { useState } from "react";
 import { BsFillGridFill, BsList } from "react-icons/bs";
-import { RiH5 } from "react-icons/ri";
 
 const ProductsContainer = () => {
 	const { meta } = useLoaderData();
