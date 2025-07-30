@@ -5,6 +5,8 @@ import {
 	generateAmountOption,
 } from "../utils";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addItem } from "../featured/cart/cartSlice";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader = async ({ params }) => {
@@ -30,8 +32,22 @@ const SingleProduct = () => {
 	);
 	const [amount, setAmount] = useState(1);
 	function handleAmount(e) {
-		parseInt(setAmount(e.target.value));
+		setAmount(parseInt(e.target.value));
 	}
+	const cartProduct = {
+		cartID: product.id + productColor,
+		productID: product.id,
+		image,
+		title,
+		price,
+		company,
+		productColor,
+		amount
+	};
+	const dispatch = useDispatch();
+	const addToCart = () => {
+		dispatch(addItem({ product: cartProduct }));
+	};
 	return (
 		<section>
 			<div className="text-md breadcrumbs">
@@ -97,7 +113,7 @@ const SingleProduct = () => {
 					<div className="mt-10">
 						<button
 							className="btn btn-secondary btn-md capitalize"
-							onClick={() => console.log()}
+							onClick={addToCart}
 						>
 							Add to bag
 						</button>

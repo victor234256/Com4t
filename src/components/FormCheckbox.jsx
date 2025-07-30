@@ -5,7 +5,7 @@ const FormCheckbox = ({
 	size,
 }) => {
 	return (
-		<div className="fieldset items-center text-center">
+		<div className="fieldset flex flex-col items-center gap-3">
 			<legend className="label capitalize">{label}</legend>
 			<input
 				type="checkbox"

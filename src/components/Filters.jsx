@@ -57,14 +57,14 @@ const Filters = () => {
 				name="price"
 				defaultValue={price}
 			/>
-			<div className="flex-col justify-center place-content-center">
-				<FormCheckbox
-					name="shipping"
-					label="free shipping"
-					size="checkbox-sm"
-					defaultValue={shipping}
-				/>
-			</div>
+
+			<FormCheckbox
+				name="shipping"
+				label="free shipping"
+				size="checkbox-sm"
+				defaultValue={shipping}
+			/>
+
 			<button className="btn btn-primary btn-sm">
 				search
 			</button>
