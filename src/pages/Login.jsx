@@ -1,7 +1,35 @@
-import { Form, Link } from "react-router-dom";
+/* eslint-disable react-refresh/only-export-components */
+import { Form, Link, redirect } from "react-router-dom";
 import { FormInput } from "../components";
 import SubmitBtn from "../components/SubmitBtn";
+import { customAPIFetch } from "../utils";
+import { toast } from "react-toastify";
+import { loginUser } from "../featured/user/userSlice";
 
+export const action =
+	(store) =>
+	async ({ request }) => {
+		const formData = await request.formData();
+		const data = Object.fromEntries(formData);
+
+		try {
+			// eslint-disable-next-line no-unused-vars
+			const response = await customAPIFetch.post(
+				"/auth/local/",
+				data,
+			);
+			store.dispatch(loginUser(response.data));
+
+			toast.success("logged in successfully");
+			return redirect("/");
+		} catch (error) {
+			const errorMessage =
+				error?.response?.data?.error?.message ||
+				"please double check your credentials";
+			toast.error(errorMessage);
+			return null;
+		}
+	};
 const Login = () => {
 	return (
 		<section className="h-screen grid place-items-center">

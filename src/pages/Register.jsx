@@ -1,6 +1,30 @@
-import { Form, Link } from "react-router-dom";
+import { Form, Link, redirect } from "react-router-dom";
 import { FormInput } from "../components";
 import SubmitBtn from "../components/SubmitBtn";
+import { customAPIFetch } from "../utils";
+import { toast } from "react-toastify";
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const action = async ({ request }) => {
+	const formData = await request.formData();
+	const data = Object.fromEntries(formData);
+
+	try {
+		// eslint-disable-next-line no-unused-vars
+		const response = await customAPIFetch.post(
+			"/auth/local/register",
+			data,
+		);
+		toast.success("user account created successfully");
+		return redirect("/login");
+	} catch (error) {
+		const errorMessage =
+			error?.response?.data?.error?.message ||
+			"please double check your credentials";
+		toast.error(errorMessage);
+		return null;
+	}
+};
 
 const Register = () => {
 	return (
