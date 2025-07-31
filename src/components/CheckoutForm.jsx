@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { Form, redirect } from "react-router-dom";
 import FormInput from "./FormInput";
 import SubmitBtn from "./SubmitBtn";
 import { customAPIFetch, formatPrice } from "../utils";
 import { clearCart } from "../featured/cart/cartSlice";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const action =
@@ -34,11 +36,12 @@ export const action =
 					},
 				},
 			);
-			console.log(response);
 
-			store.dispatch(clearCart());
 			queryClient.removeQueries(["order"]);
 			toast.success("order placed successfully");
+			
+			store.dispatch(clearCart());
+
 			return redirect("/orders");
 		} catch (error) {
 			console.log(error);

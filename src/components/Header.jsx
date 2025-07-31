@@ -11,9 +11,9 @@ const Header = () => {
 	// to remove queries when logged out
 	const queryClient = useQueryClient();
 	const handleLogout = () => {
-		dispatch(clearCart());
 		queryClient.removeQueries(["order"]);
 		dispatch(logout());
+		dispatch(clearCart());
 		navigate("/");
 	};
 	return (

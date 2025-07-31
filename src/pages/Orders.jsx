@@ -8,6 +8,7 @@ import {
 } from "../components";
 import OrdersList from "../components/OrdersList";
 import { customAPIFetch } from "../utils";
+
 const orderQuery = (user, params) => {
 	return {
 		queryKey: [
@@ -63,6 +64,7 @@ export const loader =
 	};
 const Orders = () => {
 	const { meta } = useLoaderData();
+
 	if (meta.pagination.total < 1) {
 		return <SectionTitle text="please make an order" />;
 	}

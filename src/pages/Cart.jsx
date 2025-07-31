@@ -12,7 +12,6 @@ const Cart = () => {
 		(state) => state.cartState,
 	);
 	if (numItemsInCart === 0) {
-		console.log(numItemsInCart);
 		return <SectionTitle text="Your Cart is empty" />;
 	}
 	return (
