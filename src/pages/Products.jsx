@@ -6,18 +6,48 @@ import {
 } from "../components";
 import { customAPIFetch } from "../utils";
 const url = "/products";
-export const loader = async ({ request }) => {
-	const params = Object.fromEntries([
-		...new URL(request.url).searchParams.entries(),
-	]);
-	const response = await customAPIFetch(url, {
-		params,
-	});
 
-	const products = response.data.data;
-	const meta = response.data.meta;
-	return { products, meta, params };
+const allProductQuery = (queryParams) => {
+	const {
+		search,
+		category,
+		company,
+		sort,
+		price,
+		shipping,
+		page,
+	} = queryParams;
+	return {
+		queryKey: [
+			"allProduct",
+			search ?? "",
+			category ?? "all",
+			company ?? "all",
+			sort ?? "a-z",
+			price ?? 10000000,
+			shipping ?? false,
+			page ?? 1,
+		],
+		queryFn: () =>
+			customAPIFetch(url, {
+				params: queryParams,
+			}),
+	};
 };
+export const loader =
+	(queryClient) =>
+	async ({ request }) => {
+		const params = Object.fromEntries([
+			...new URL(request.url).searchParams.entries(),
+		]);
+		const response = await queryClient.ensureQueryData(
+			allProductQuery(params),
+		);
+
+		const products = response.data.data;
+		const meta = response.data.meta;
+		return { products, meta, params };
+	};
 const Products = () => {
 	return (
 		<>

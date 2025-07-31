@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 const themes = {
 	winter: "winter",
-	dracula: "dracula",
+	dracula: "sunset",
 };
 
 const getThemeFromLocalStorage = () => {

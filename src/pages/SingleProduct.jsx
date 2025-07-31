@@ -8,13 +8,21 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addItem } from "../featured/cart/cartSlice";
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const loader = async ({ params }) => {
-	const response = await customAPIFetch(
-		`products/${params.id}`,
-	);
-	return { product: response.data.data };
+const singleProductQuery = (id) => {
+	return {
+		queryKey: ["singleProduct", id],
+		queryFn: () => customAPIFetch(`products/${id}`),
+	};
 };
+// eslint-disable-next-line react-refresh/only-export-components
+export const loader =
+	(queryClient) =>
+	async ({ params }) => {
+		const response = await queryClient.ensureQueryData(
+			singleProductQuery(params.id),
+		);
+		return { product: response.data.data };
+	};
 
 const SingleProduct = () => {
 	const { product } = useLoaderData();
@@ -42,7 +50,7 @@ const SingleProduct = () => {
 		price,
 		company,
 		productColor,
-		amount
+		amount,
 	};
 	const dispatch = useDispatch();
 	const addToCart = () => {

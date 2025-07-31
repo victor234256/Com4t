@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const action =
-	(store) =>
+	(store, queryClient) =>
 	async ({ request }) => {
 		const formData = await request.formData();
 		const { name, address } = Object.fromEntries(formData);
@@ -37,6 +37,7 @@ export const action =
 			console.log(response);
 
 			store.dispatch(clearCart());
+			queryClient.removeQueries(["order"]);
 			toast.success("order placed successfully");
 			return redirect("/orders");
 		} catch (error) {
@@ -46,8 +47,8 @@ export const action =
 				"there was an error placing your order";
 			toast.error(errorMessage);
 			if (
-				error.response.status === 401 ||
-				error.response.status === 403
+				error?.response?.status === 401 ||
+				error?.response?.status === 403
 			) {
 				return redirect("/login");
 			}

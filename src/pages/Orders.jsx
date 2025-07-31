@@ -8,9 +8,24 @@ import {
 } from "../components";
 import OrdersList from "../components/OrdersList";
 import { customAPIFetch } from "../utils";
-
+const orderQuery = (user, params) => {
+	return {
+		queryKey: [
+			"order",
+			user.username,
+			params.page ? parseInt(params.page) : 1,
+		],
+		queryFn: () =>
+			customAPIFetch.get("/orders", {
+				params,
+				headers: {
+					Authorization: `Bearer ${user.token}`,
+				},
+			}),
+	};
+};
 export const loader =
-	(store) =>
+	(store, queryClient) =>
 	async ({ request }) => {
 		const user = store.getState().userState.user;
 
@@ -22,12 +37,9 @@ export const loader =
 			...new URL(request.url).searchParams.entries(),
 		]);
 		try {
-			const response = await customAPIFetch.get("/orders", {
-				params,
-				headers: {
-					Authorization: `Bearer ${user.token}`,
-				},
-			});
+			const response = await queryClient.ensureQueryData(
+				orderQuery(user, params),
+			);
 
 			return {
 				orders: response.data.data,
@@ -41,8 +53,8 @@ export const loader =
 
 			toast.error(errorMessage);
 			if (
-				error.response.status === 401 ||
-				error.response.status === 403
+				error?.response?.status === 401 ||
+				error?.response?.status === 403
 			) {
 				return redirect("/login");
 			}
